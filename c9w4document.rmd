@@ -1,0 +1,55 @@
+---
+title: "Course 9 Week 4 Document"
+author: "Chandramouli M"
+date: "October 25, 2017"
+output: ioslides_presentation
+---
+
+## Introduction to problem statement
+
+The data set is a collection of work that is being performed on sales data for FY17 per each quarter.
+
+- Quarter (Which quarter of FY17)
+- Month (Which Month in the quarter the sale happend)
+- og ( Which operating Group)
+- led (Is it a GDN Led or OG led deal)
+- oper (Which operating model owned or support)
+- amtinm (Amount in $ Million)
+- amtink (Amount in $'000)
+
+## Data set Information
+
+```{r salesdata, echo = TRUE, warning=FALSE, message=FALSE}
+library(lattice)
+indata <- read.csv("salesdata.csv", header=TRUE)
+colnames(indata)[1]<- "Quarter"
+
+names(indata)
+head(indata)
+```
+## Functionality
+
+This application provides information about the quarter wise and Operating group wise sales data, users has to select the Quarter and the Operating group from the provided list and submit.
+
+
+
+```{r}
+     fltr1 <- subset(indata, (indata$og == "FS" & indata$Quarter == "Q1-FY17"))
+     fltr1$amtinm = as.numeric(fltr1$amtinm)
+     sumval <- sum(fltr1$amtinm,indata$og == "FS" & indata$Quarter == "Q1-FY17")
+     paste0("Total sales value for Quarter Q1-FY17 and Operating Group FS is ",sumval, "Million USD")
+```
+Shiny App running at this link
+
+
+Files and repository available at
+
+
+
+
+## Plot with selected information
+
+```{r }
+xyplot(Month~amtinm | Quarter*og, fltr1)
+```
+
